@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppBarItem = ({ content, to }) => {
+const AppBarItem = ({ content, ...rest }) => {
   return (
-    <Link component={TouchableWithoutFeedback} to={to}>
+    <Link component={TouchableWithoutFeedback} {...rest}>
       <View style={styles.container}>
         <Text fontSize='subheading' fontWeight='bold' style={styles.content}>{content}</Text>
       </View>
