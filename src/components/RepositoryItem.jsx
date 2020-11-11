@@ -35,11 +35,11 @@ const ItemHeader = ({ fullName, description, language, ownerAvatarUrl }) => {
     <View style={headerStyles.container}>
       <ItemAvatar url={ownerAvatarUrl} />
       <View style={headerStyles.titleContainer}>
-        <Text fontWeight='bold' fontSize='subheading' style={headerStyles.fullName}>{fullName}</Text>
+        <Text fontWeight='bold' fontSize='subheading' style={headerStyles.fullName} testID="repoName">{fullName}</Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text color='textSecondary' fontSize='subheading' style={headerStyles.description}>{description}</Text>
+          <Text color='textSecondary' fontSize='subheading' style={headerStyles.description} testID="description">{description}</Text>
         </View>
-        <Text fontSize='subheading' style={headerStyles.language}>{language}</Text>
+        <Text fontSize='subheading' style={headerStyles.language} testID="language">{language}</Text>
       </View>
     </View>
   );
@@ -56,7 +56,7 @@ const footerStyles = StyleSheet.create({
   }
 });
 
-const Label = ({ label, number }) => {
+const Label = ({ label, number, ...rest }) => {
   if(number >= 1000){
     number = (number/1000).toFixed(1);
     if(parseInt(number.split('.')[1]) === 0) {
@@ -66,7 +66,7 @@ const Label = ({ label, number }) => {
   }
   return (
     <View style={footerStyles.labelContainer}>
-      <Text fontSize='subheading' fontWeight='bold'>
+      <Text fontSize='subheading' fontWeight='bold' {...rest}>
         {number}
       </Text>
       <Text fontSize='subheading' color='textSecondary'>{label}</Text>
@@ -77,10 +77,10 @@ const Label = ({ label, number }) => {
 const ItemFooter = ({ forksCount, stargazersCount, ratingAverage, reviewCount }) => {
   return (
     <View style={footerStyles.container}>
-      <Label label='Stars' number={stargazersCount} />
-      <Label label='Forks' number={forksCount} />
-      <Label label='Reviews' number={reviewCount} />
-      <Label label='Rating' number={ratingAverage} />
+      <Label label='Stars' number={stargazersCount} testID="stargazerCount" />
+      <Label label='Forks' number={forksCount} testID="forkCount" />
+      <Label label='Reviews' number={reviewCount} testID="reviewCount" />
+      <Label label='Rating' number={ratingAverage} testID="ratingAverage" />
     </View>
   );
 };

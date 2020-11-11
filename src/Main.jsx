@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Route, Switch, Redirect } from 'react-router-native';
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import RepositoryList from './components/RepositoryList';
 import SignIn from './components/SignIn';
 import AppBar from './components/AppBar';
 import AppBarItem from './components/AppBarItem';
 import { AUTHORIZED_QUERY } from './graphql/queries';
-import AuthStorageContext from './contexts/AuthStorageContext';
+import LogOut from './components/LogOut';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,21 +19,15 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-  const apolloClient = useApolloClient()
-  const authStorage = useContext(AuthStorageContext)
   const {data} = useQuery(AUTHORIZED_QUERY, {
     fetchPolicy: "cache-and-network"
   })
-  const logout = () => {
-    authStorage.removeAccessToken()
-    apolloClient.resetStore()
-  }
   return (
     <View style={styles.container}>
       <AppBar>
         <AppBarItem content={'Repositories'} to={'/'} />
         {data && data.authorizedUser 
-          ? <AppBarItem content={'Sign out'} onPress={logout}/> 
+          ? <AppBarItem content={'Log out'} to={'/logout'} /> 
           : <AppBarItem content={'Sign in'} to={'/signin'} />
         }
       </AppBar>
@@ -43,6 +37,9 @@ const Main = () => {
         </Route>
         <Route path="/signin" exact>
           <SignIn />
+        </Route>
+        <Route path="/logout" exact>
+          <LogOut />
         </Route>
         <Redirect to="/" />
       </Switch>
